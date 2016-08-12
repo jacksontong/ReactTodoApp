@@ -3,13 +3,14 @@ import Todo from './Todo';
 
 const TodoList = React.createClass({
   propTypes: {
-    todos: React.PropTypes.array.isRequired
+    todos: React.PropTypes.array.isRequired,
+    onToggle: React.PropTypes.func.isRequired
   },
   render() {
-    const {todos} = this.props;
+    const {todos, onToggle} = this.props;
     const renderTodos = () => {
       return todos.map((todo) => {
-        return <Todo key={todo.id} {...todo}/>;
+        return <Todo key={todo.id} {...todo} onToggle={onToggle}/>;
       });
     };
 

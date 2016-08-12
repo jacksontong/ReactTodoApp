@@ -1,15 +1,18 @@
 import React from 'react';
-import {expect} from 'chai';
+import chai, {expect} from 'chai';
 import TestUtils from 'react-addons-test-utils';
 import TodoList from '../../components/TodoList';
+import spies from 'chai-spies';
 import Todo from '../../components/Todo';
 
+chai.use(spies);
 describe('TodoList', () => {
   it('should exist', () => {
     expect(TodoList).to.exist;
   });
 
   it('should render one Todo component for each todo item', () => {
+    const spy = chai.spy();
     const todos = [
       {
         id: 1,
@@ -21,7 +24,7 @@ describe('TodoList', () => {
       }
     ];
 
-    const todoList = TestUtils.renderIntoDocument(<TodoList todos={todos}/>);
+    const todoList = TestUtils.renderIntoDocument(<TodoList onToggle={spy} todos={todos}/>);
     const todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, Todo);
 
     expect(todosComponents.length).to.equal(todos.length);
