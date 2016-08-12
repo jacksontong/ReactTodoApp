@@ -1,1 +1,1 @@
-Boilerplate React App
+#React Todo App [![Build Status](https://travis-ci.org/tongtoanbs/ReactTodoApp.svg?branch=master)](https://travis-ci.org/tongtoanbs/ReactTodoApp)
