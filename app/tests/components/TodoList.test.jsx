@@ -29,4 +29,13 @@ describe('TodoList', () => {
 
     expect(todosComponents.length).to.equal(todos.length);
   });
+
+  it('should render empty message if no todos', () => {
+    const spy = chai.spy();
+    const todos = [];
+    const todoList = TestUtils.renderIntoDocument(<TodoList onToggle={spy} todos={todos}/>);
+    const message = TestUtils.scryRenderedDOMComponentsWithClass(todoList, 'container__message');
+
+    expect(message.length).to.equal(1);
+  });
 });
