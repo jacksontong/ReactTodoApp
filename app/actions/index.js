@@ -8,6 +8,11 @@ export const addTodo = (text) => ({
   text
 });
 
+export const addTodos = (todos) => ({
+  type: 'ADD_TODOS',
+  todos
+});
+
 export const toggleShowCompleted = () => ({
   type: 'TOGGLE_SHOW_COMPLETED'
 });

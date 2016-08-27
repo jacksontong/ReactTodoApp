@@ -22,6 +22,23 @@ describe('Actions', () => {
     expect(response).to.eql(action);
   });
 
+  it('should generate add todos action', () => {
+    const todos = [{
+      id: '111',
+      text: 'anything',
+      completed: false,
+      completedAt: undefined,
+      createdAt: 33000000
+    }];
+    const action = {
+      type: 'ADD_TODOS',
+      todos
+    };
+    const res = fromActions.addTodos(todos);
+
+    expect(res).to.eql(action);
+  });
+
   it('should generate toggle show completed action', () => {
     const action = {
       type: 'TOGGLE_SHOW_COMPLETED'

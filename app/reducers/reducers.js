@@ -46,6 +46,11 @@ export const todosReducer = (state = [], action) => {
           completedAt: completed ? moment().unix() : undefined
         };
       });
+    case 'ADD_TODOS':
+      return [
+        ...state,
+        ...action.todos
+      ];
     default:
       return state;
   }
