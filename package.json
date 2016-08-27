@@ -27,6 +27,7 @@
     "chai": "^3.5.0",
     "chai-spies": "^0.7.1",
     "css-loader": "^0.23.1",
+    "deep-freeze-strict": "^1.1.1",
     "foundation-sites": "^6.2.0",
     "jquery": "^2.2.1",
     "karma": "^0.13.22",
