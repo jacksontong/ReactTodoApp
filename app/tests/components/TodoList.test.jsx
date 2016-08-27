@@ -1,31 +1,47 @@
 import React from 'react';
-import chai, {expect} from 'chai';
+import chai, { expect } from 'chai';
 import TestUtils from 'react-addons-test-utils';
-import TodoList from '../../components/TodoList';
+import ConnectedTodoList, { TodoList } from '../../components/TodoList';
 import spies from 'chai-spies';
-import Todo from '../../components/Todo';
+import ConnectedTodo, { Todo } from '../../components/Todo';
+import { Provider } from 'react-redux';
+import configureStore from '../../store/configureStore';
+import uuid from 'node-uuid';
 
 chai.use(spies);
 describe('TodoList', () => {
   it('should exist', () => {
-    expect(TodoList).to.exist;
+    expect(ConnectedTodoList).to.exist;
   });
 
   it('should render one Todo component for each todo item', () => {
-    const spy = chai.spy();
     const todos = [
       {
-        id: 1,
-        text: 'Do something'
+        id: uuid(),
+        text: 'Do something',
+        completed: false,
+        completedAt: undefined,
+        createdAt: 500
       },
       {
-        id: 2,
-        text: 'Check mail'
+        id: uuid(),
+        text: 'Check mail',
+        completed: false,
+        completedAt: undefined,
+        createdAt: 500
       }
     ];
+    const store = configureStore({
+      todos
+    });
+    const provider = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <ConnectedTodoList/>
+      </Provider>
+    );
 
-    const todoList = TestUtils.renderIntoDocument(<TodoList onToggle={spy} todos={todos}/>);
-    const todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, Todo);
+    const todoList = TestUtils.scryRenderedComponentsWithType(provider, ConnectedTodoList)[0];
+    const todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, ConnectedTodo);
 
     expect(todosComponents.length).to.equal(todos.length);
   });

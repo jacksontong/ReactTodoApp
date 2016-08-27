@@ -1,13 +1,13 @@
 import React from 'react';
 import Todo from './Todo';
+import { connect } from 'react-redux';
 
-const TodoList = React.createClass({
+export const TodoList = React.createClass({
   propTypes: {
-    todos: React.PropTypes.array.isRequired,
-    onToggle: React.PropTypes.func.isRequired
+    todos: React.PropTypes.array.isRequired
   },
   render() {
-    const {todos, onToggle} = this.props;
+    const { todos } = this.props;
     const renderTodos = () => {
       if (todos.length === 0) {
         return (
@@ -16,7 +16,7 @@ const TodoList = React.createClass({
       }
 
       return todos.map((todo) => {
-        return <Todo key={todo.id} {...todo} onToggle={onToggle}/>;
+        return <Todo key={todo.id} {...todo}/>;
       });
     };
 
@@ -28,4 +28,10 @@ const TodoList = React.createClass({
   }
 });
 
-export default TodoList;
+const mapStateToTodoListProps = (state) => ({
+  todos: state.todos
+});
+
+export default connect(
+  mapStateToTodoListProps
+)(TodoList);

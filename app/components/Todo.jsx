@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import * as fromActions from '../actions';
 
-const Todo = React.createClass({
+export const Todo = React.createClass({
   propTypes: {
-    onToggle: React.PropTypes.func.isRequired
+    text: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    createdAt: PropTypes.number.isRequired,
+    completedAt: PropTypes.number,
+    completed: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
   },
   render() {
-    const {text, id, completed, onToggle, createdAt, completedAt} = this.props;
+    const {text, id, completed, createdAt, completedAt, dispatch} = this.props;
     const todoClassName = completed ? 'todo todo-completed' : 'todo';
     const renderDate = () => {
       let message = 'Created ';
@@ -22,7 +29,7 @@ const Todo = React.createClass({
 
     return (
       <div className={todoClassName} onClick={() => {
-        onToggle(id);
+        dispatch(fromActions.toggleTodo(id));
       }}>
         <div>
           <input type="checkbox" checked={completed} readOnly={true}/>
@@ -36,4 +43,4 @@ const Todo = React.createClass({
   }
 });
 
-export default Todo;
+export default connect()(Todo);

@@ -2,8 +2,8 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import chai, {expect} from 'chai';
 import spies from 'chai-spies';
-import AddTodo from '../../components/AddTodo';
-import TodoApp from '../../components/TodoApp';
+import * as fromActions from '../../actions';
+import { AddTodo } from '../../components/AddTodo';
 
 chai.use(spies);
 describe('AddTodo', () => {
@@ -16,26 +16,33 @@ describe('AddTodo', () => {
     let form;
     let spy;
     beforeEach(() => {
-      spy = chai.spy(TodoApp.handleAddTodo);
-      addTodo = TestUtils.renderIntoDocument(<AddTodo onAddTodo={spy}/>);
+      spy = chai.spy(fromActions.addTodo());
+      addTodo = TestUtils.renderIntoDocument(<AddTodo dispatch={spy}/>);
       form = TestUtils.findRenderedDOMComponentWithTag(addTodo, 'form');
     });
-    it('should call onAddTodo prop with valid data', () => {
+    it('should dispatch ADD_TODO when valid todo text', () => {
       const todoText = 'Check mail';
+      const action = {
+        type: 'ADD_TODO',
+        text: todoText
+      };
 
       addTodo.refs.todoText.value = todoText;
       TestUtils.Simulate.submit(form);
 
-      expect(spy).to.have.been.called.with(todoText);
+      expect(spy).to.have.been.called.with(action);
     });
 
-    it('should not call onAddTodo prop with valid data', () => {
+    it('should not dispatch ADD_TODO when invalid todo text', () => {
       const todoText = '';
 
       addTodo.refs.todoText.value = todoText;
       TestUtils.Simulate.submit(form);
 
-      expect(spy).to.not.have.been.called.with(todoText);
+      expect(spy).to.not.have.been.called.with({
+        type: 'ADD_TODO',
+        text: todoText
+      });
     });
   });
 });
