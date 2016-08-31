@@ -1,5 +1,9 @@
 import {expect} from 'chai';
 import * as fromActions from '../../actions';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+const createMockStore = configureMockStore([thunk]);
 
 describe('Actions', () => {
   it('should generate search text action', () => {
@@ -15,11 +19,32 @@ describe('Actions', () => {
   it('should generate add todo action', () => {
     const action = {
       type: 'ADD_TODO',
-      text: 'new todo'
+      todo: {
+        id: '12312',
+        text: 'adsfasdf',
+        completed: false,
+        createdAt: 0
+      }
     };
-    const response = fromActions.addTodo(action.text);
+    const response = fromActions.addTodo(action.todo);
 
     expect(response).to.eql(action);
+  });
+
+  it('should create todo an dispatch ADD_TODO', (done) => {
+    const store = createMockStore({});
+    const todoText = 'My todo item';
+
+    store.dispatch(fromActions.startAddTodo(todoText)).then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).to.include({
+        type: 'ADD_TODO'
+      });
+      expect(actions[0].todo).to.include({
+        text: todoText
+      });
+      done();
+    }).catch(done);
   });
 
   it('should generate add todos action', () => {
