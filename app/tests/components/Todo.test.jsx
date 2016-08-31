@@ -5,6 +5,8 @@ import uuid from 'node-uuid';
 import TestUtils from 'react-addons-test-utils';
 import { Todo } from '../../components/Todo';
 import ReactDOM from 'react-dom';
+import * as fromActions from '../../actions';
+import mjexpect from 'expect';
 
 chai.use(spies);
 describe('Todo', () => {
@@ -12,21 +14,19 @@ describe('Todo', () => {
     expect(Todo).to.exist;
   });
 
-  it('should dispatch TOGGLE_TODO action on click', () => {
+  it('should dispatch UPDATE_TODO action on click', () => {
     const todoData = {
       id: uuid(),
       text: 'Write todo.test.jsx test',
       completed: true,
       createdAt: 1234
     };
-    const spy = chai.spy();
+    const action = fromActions.startToggleTodo(todoData.id, !todoData.completed);
+    const spy = mjexpect.createSpy();
     const todo = TestUtils.renderIntoDocument(<Todo {...todoData} dispatch={spy}/>);
 
     TestUtils.Simulate.click(ReactDOM.findDOMNode(todo));
 
-    expect(spy).to.have.been.called.with({
-      type: 'TOGGLE_TODO',
-      id: todoData.id
-    });
+    mjexpect(spy).toHaveBeenCalledWith(action);
   });
 });

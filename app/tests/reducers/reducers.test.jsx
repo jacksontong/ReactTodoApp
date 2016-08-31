@@ -44,7 +44,7 @@ describe('Reducers', () => {
       expect(res[0]).to.equal(action.todo);
     });
 
-    it('should toggle a todo', () => {
+    it('should update a todo', () => {
       const now = moment().unix();
       const state = [{
         id: 1,
@@ -53,19 +53,20 @@ describe('Reducers', () => {
         createdAt: now,
         completedAt: undefined
       }];
+      const updates = {
+        completed: false,
+        completedAt: null
+      };
       const action = {
-        type: 'TOGGLE_TODO',
-        id: 1
+        type: 'UPDATE_TODO',
+        id: state[0].id,
+        updates
       };
       const resFirst = fromReducers.todosReducer(deepFreeze(state), deepFreeze(action));
 
-      expect(resFirst[0].completed).to.be.true;
-      expect(resFirst[0].completedAt).to.equal(now);
-
-      // toggle a todo again
-      const resTwo = fromReducers.todosReducer(deepFreeze(resFirst), deepFreeze(action));
-      expect(resTwo[0].completed).to.be.false;
-      expect(resTwo[0].completedAt).to.be.undefined;
+      expect(resFirst[0].completed).to.equal(updates.completed);
+      expect(resFirst[0].completedAt).to.equal(updates.completedAt);
+      expect(resFirst[0].text).to.equal(state[0].text);
     });
 
     it('should add existing todos', () => {
