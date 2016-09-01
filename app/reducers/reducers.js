@@ -1,6 +1,3 @@
-import uuid from 'node-uuid';
-import moment from 'moment';
-
 export const searchTextReducer = (state = '', action) => {
   switch (action.type) {
     case 'SET_SEARCH_TEXT':

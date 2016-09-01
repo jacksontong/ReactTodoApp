@@ -54,3 +54,14 @@ export const startToggleTodo = (id, completed) => (dispatch, getState) => {
     dispatch(updateTodo(id, updates));
   });
 };
+
+export const startAddTodos = () => (dispatch, getState) =>
+  firebaseRef.child('todos').once('value').then((snapshot) => {
+    const res = snapshot.val();
+    const todos = Object.keys(res).map(id => ({
+      id,
+      ...res[id]
+    }));
+
+    dispatch(addTodos(todos));
+  });

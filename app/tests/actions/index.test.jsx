@@ -89,21 +89,29 @@ describe('Actions', () => {
 
   describe('Tests with firebase todos', () => {
     let testTodoRef;
+    let store;
+    const todo = {
+      text: 'Something to do',
+      completed: false,
+      createdAt: 1231243
+    };
     beforeEach((done) => {
-      testTodoRef = firebaseRef.child('todos').push();
+      store = createMockStore([thunk]);
+      const todosRef = firebaseRef.child('todos');
 
-      testTodoRef.set({
-        text: 'Something to do',
-        completed: false,
-        createdAt: 1231243
-      }).then(() => done());
+      todosRef.remove().then(() => {
+        testTodoRef = firebaseRef.child('todos').push();
+
+        return testTodoRef.set(todo);
+      })
+        .then(() => done())
+        .catch(done);
     });
     afterEach((done) => {
       testTodoRef.remove().then(() => done());
     });
     
     it('should toggle todo and dispatch UPDATE_TODO action', (done) => {
-      const store = createMockStore([thunk]);
       const action = fromActions.startToggleTodo(testTodoRef.key, true);
 
       store.dispatch(action).then(() => {
@@ -117,6 +125,19 @@ describe('Actions', () => {
           completed: true
         });
         expect(mockActions[0].updates.completedAt).to.exist;
+
+        done();
+      }, done);
+    });
+
+    it('should popuplate todos and dispatch ADD_TODOS action', (done) => {
+      const action = fromActions.startAddTodos();
+
+      store.dispatch(action).then(() => {
+        const mockActions = store.getActions();
+
+        expect(mockActions[0].type).to.equal('ADD_TODOS');
+        expect(mockActions[0].todos[0]).to.include({...todo});
 
         done();
       }, done);
