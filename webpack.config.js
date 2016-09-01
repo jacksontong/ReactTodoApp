@@ -1,8 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
 module.exports = {
   entry: [
     'script!jquery/dist/jquery.min.js',
@@ -13,6 +11,9 @@ module.exports = {
     jquery: 'jQuery'
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+    }),
     new webpack.ProvidePlugin({
       '$': 'jquery',
       'jQuery': 'jquery'
