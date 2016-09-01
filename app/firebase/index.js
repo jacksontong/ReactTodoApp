@@ -2,10 +2,10 @@ import firebase from 'firebase';
 
 try {
   const config = {
-    apiKey: "AIzaSyAnBvXMh4y-1BAKzuqCPIANBXrnAntK7Iw",
-    authDomain: "toantv-todo-app.firebaseapp.com",
-    databaseURL: "https://toantv-todo-app.firebaseio.com",
-    storageBucket: "toantv-todo-app.appspot.com",
+    apiKey: process.env.API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    databaseURL: process.env.DATABASE_URL,
+    storageBucket: process.env.STORAGE_BUCKET,
   };
 
   firebase.initializeApp(config);
