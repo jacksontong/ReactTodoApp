@@ -65,6 +65,25 @@ describe('Actions', () => {
     expect(res).to.eql(action);
   });
 
+  it('should generate login action', () => {
+    const action = {
+      type: 'LOGIN',
+      uid: '9P0vbtEZrERITfoQwPGxiKgMOng2'
+    };
+    const res = fromActions.login(action.uid);
+
+    expect(res).to.eql(action);
+  });
+
+  it('should generate logout action', () => {
+    const action = {
+      type: 'LOGOUT'
+    };
+    const res = fromActions.logout();
+
+    expect(res).to.eql(action);
+  });
+
   it('should generate toggle show completed action', () => {
     const action = {
       type: 'TOGGLE_SHOW_COMPLETED'

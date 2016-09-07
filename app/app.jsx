@@ -9,8 +9,11 @@ import router from './routers';
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
+    store.dispatch(fromActions.login(user.uid));
+    store.dispatch(fromActions.startAddTodos());
     hashHistory.push('/todos');
   } else {
+    store.dispatch(fromActions.logout());
     hashHistory.push('/');
   }
 });
@@ -19,8 +22,6 @@ firebase.auth().onAuthStateChanged((user) => {
 $(document).foundation();
 
 const store = configureStore();
-
-store.dispatch(fromActions.startAddTodos());
 
 // App css
 require('style!css!sass!applicationStyles');

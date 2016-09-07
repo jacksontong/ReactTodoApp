@@ -27,6 +27,30 @@ describe('Reducers', () => {
     })
   });
 
+  describe('Auth reducer', () => {
+    it('should set uid', () => {
+      const action = {
+        type: 'LOGIN',
+        uid: '9P0vbtEZrERITfoQwPGxiKgMOng2'
+      };
+      const res = fromReducers.auth(deepFreeze({}), deepFreeze(action));
+
+      expect(res.uid).to.equal(action.uid);
+    });
+
+    it('should unset uid', () => {
+      const action = {
+        type: 'LOGOUT'
+      };
+      const state = {
+        uid: '9P0vbtEZrERITfoQwPGxiKgMOng2'
+      };
+      const res = fromReducers.auth(deepFreeze(state), deepFreeze(action));
+
+      expect(res).to.eql({});
+    });
+  });
+
   describe('todosReducer', () => {
     it('should add new todo', () => {
       const action = {

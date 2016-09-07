@@ -6,7 +6,8 @@ export default (initialState = {}) => {
   const reducer = combineReducers({
     searchText: fromReducers.searchTextReducer,
     showCompleted: fromReducers.showCompletedReducer,
-    todos: fromReducers.todosReducer
+    todos: fromReducers.todosReducer,
+    auth: fromReducers.auth
   });
 
   return createStore(reducer, initialState, compose(
